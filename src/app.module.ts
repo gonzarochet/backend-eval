@@ -10,7 +10,9 @@ import { JwtUtilities } from './auth/utilities/jwt-utilities';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot( process.env.MONGO_URI),
+    MongooseModule.forRoot( process.env.MONGO_URI,{
+        dbName: process.env.MONDO_DB_NAME
+    }),
     AuthModule,
     
 
