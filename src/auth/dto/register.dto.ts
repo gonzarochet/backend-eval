@@ -28,7 +28,7 @@ export class RegisterUserDto{
     nickname : string;
     
     @IsOptional()
-    @IsUrl()
+    @IsString()
     profilePicture : string; 
 
     @IsEmail()

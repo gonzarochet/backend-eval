@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsEmail, IsOptional, IsString, IsUrl, MinLength, ValidateNested } from "class-validator";
+import { IsEmail, IsOptional, IsString, MinLength, ValidateNested } from "class-validator";
 
 
 class Address{
@@ -28,7 +28,7 @@ export class CreateUserDto{
     nickname : string;
     
     @IsOptional()
-    @IsUrl()
+    @IsString()
     profilePicture : string; 
 
     @IsEmail()

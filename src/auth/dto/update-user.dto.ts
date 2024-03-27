@@ -1,5 +1,4 @@
-import { IsEmail, IsOptional, IsString, IsUrl, MinLength, ValidateNested } from 'class-validator';
-import { UpdateAuthDto } from './update-auth.dto';
+import { IsEmail, IsOptional, IsString , MinLength, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class Address{
@@ -31,7 +30,7 @@ export class UpdateUserDTO{
     nickname : string;
     
     @IsOptional()
-    @IsUrl()
+    @IsString()
     profilePicture : string; 
 
     @IsEmail()

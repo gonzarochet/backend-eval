@@ -26,6 +26,9 @@ export class User {
     nickname :string; 
 
     @Prop()
+    birthday: Date;
+    
+    @Prop()
     pictureProfile: string; 
 
     @Prop({required: true})

@@ -145,11 +145,17 @@ export class AuthService {
           const {email} = userComplete
           const userDcoument: Document<User> = await this.findUserByEmail(email); 
 
+          
           userDcoument.set(updateAuthDto)
+
+          userDcoument.set(updateAuthDto.profilePicture)
 
           await userDcoument.save()
     
           const { password, ...rest } = userDcoument.toObject();
+
+         // console.log(rest)
+
     
           return rest
 
