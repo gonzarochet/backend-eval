@@ -147,6 +147,8 @@ export class AuthService {
 
           
           userDcoument.set(updateAuthDto)
+          
+          console.log(updateAuthDto.profilePicture)
 
           userDcoument.set(updateAuthDto.profilePicture)
 
