@@ -48,6 +48,9 @@ export class UpdateUserDTO{
     @ValidateNested()
     @Type(()=> Address)
     address : Address; 
+
+    @IsOptional()
+    listEpisodesFavs:string[];
     
 
 }

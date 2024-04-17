@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsEmail, IsOptional, IsString, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsEmail, IsOptional, IsString, MinLength, ValidateNested, isArray } from "class-validator";
 
 
 class Address{
@@ -29,7 +29,7 @@ export class CreateUserDto{
     
     @IsOptional()
     @IsString()
-    profilePicture : string; 
+    pictureProfile : string; 
 
     @IsEmail()
     email: string;
@@ -46,6 +46,10 @@ export class CreateUserDto{
     @ValidateNested()
     @Type(()=> Address)
     address : Address; 
+
+    @IsOptional()
+    @IsArray()
+    listEpisodesFavs:string[];
     
 
 }

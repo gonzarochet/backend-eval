@@ -1,5 +1,5 @@
 
-import { IsEmail, IsOptional, IsString, IsUrl, MinLength, isDateString } from 'class-validator';
+import { IsArray, IsEmail, IsOptional, IsString, IsUrl, MinLength, isDateString } from 'class-validator';
 
 
 class Address{
@@ -29,7 +29,7 @@ export class RegisterUserDto{
     
     @IsOptional()
     @IsString()
-    profilePicture : string; 
+    pictureProfile : string; 
 
     @IsEmail()
     email: string;
@@ -44,6 +44,10 @@ export class RegisterUserDto{
     birthday: Date;
 
     address : Address; 
+    
+    @IsOptional()
+    @IsArray()
+    listEpisodesFavs:string[];
     
 
 }
