@@ -137,6 +137,7 @@ export class AuthService {
   async changeUserInfo(updateAuthDto: UpdateAuthDto) {
 
     try {
+      
 
       const userId = await this.jwtUtilities.getId();
       const userComplete = await this.findUserById(userId)
@@ -148,9 +149,9 @@ export class AuthService {
           
           userDcoument.set(updateAuthDto)
           
-          console.log(updateAuthDto.profilePicture)
+          console.log(updateAuthDto.pictureProfile)
 
-          userDcoument.set(updateAuthDto.profilePicture)
+          userDcoument.set(updateAuthDto.pictureProfile)
 
           await userDcoument.save()
     

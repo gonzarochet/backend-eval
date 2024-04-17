@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Address, AddressSchema } from './address.entity';
 
 
+//export type UserDocument = HydratedDocument<User>
 
 export enum Role{
     USER = "USER",
@@ -45,6 +46,9 @@ export class User {
 
     @Prop({ type: AddressSchema})
     address: Address;
+
+    @Prop()
+    listEpisodesFavs : string[];
 }
 
 
