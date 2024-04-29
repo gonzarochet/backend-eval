@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 import { AddressSchema, Address } from './entities/address.entity';
 import { JwtUtilities } from './utilities/jwt-utilities';
+import { Comment, CommentSchema } from './entities/comment.entity';
 
 @Module({
   controllers: [AuthController],
@@ -24,6 +25,10 @@ import { JwtUtilities } from './utilities/jwt-utilities';
       {
         name: Address.name,
         schema: AddressSchema
+      },
+      {
+        name: Comment.name,
+        schema: CommentSchema
       }
     ]),
     JwtModule.register({

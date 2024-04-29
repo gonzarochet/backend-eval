@@ -4,7 +4,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { User } from './entities/user.entity';
-import { Document, Model} from 'mongoose';
+import { Comment } from './entities/comment.entity';
+import { Document, Model } from 'mongoose';
 
 
 import * as bcryptjs from 'bcryptjs'
@@ -15,6 +16,7 @@ import { RegisterUserDto } from './dto/register.dto';
 import { RegisterResponse } from './interfaces/register-response';
 
 import { JwtUtilities } from './utilities/jwt-utilities';
+import { CommentDTO } from './dto/comment.dto';
 
 
 
@@ -25,7 +27,9 @@ export class AuthService {
   constructor(
     @InjectModel(User.name)
     private userModel: Model<User>,
-    private jwtUtilities : JwtUtilities,
+    @InjectModel(Comment.name)
+    private commentModel: Model<Comment>,
+    private jwtUtilities: JwtUtilities,
 
   ) { }
 
@@ -126,8 +130,8 @@ export class AuthService {
   }
 
 
-  async findUserByIdReturnDocument(id: string) : Promise<User>{
-      return await this.userModel.findById({id})
+  async findUserByIdReturnDocument(id: string): Promise<User> {
+    return await this.userModel.findById({ id })
   }
 
   async findUserByEmail(email: string): Promise<Document> {
@@ -137,35 +141,35 @@ export class AuthService {
   async changeUserInfo(updateAuthDto: UpdateAuthDto) {
 
     try {
-      
+
 
       const userId = await this.jwtUtilities.getId();
       const userComplete = await this.findUserById(userId)
 
-      if(userComplete){
-          const {email} = userComplete
-          const userDcoument: Document<User> = await this.findUserByEmail(email); 
+      if (userComplete) {
+        const { email } = userComplete
+        const userDcoument: Document<User> = await this.findUserByEmail(email);
 
-          
-          userDcoument.set(updateAuthDto)
-          
-          console.log(updateAuthDto.pictureProfile)
 
-          userDcoument.set(updateAuthDto.pictureProfile)
+        userDcoument.set(updateAuthDto)
 
-          await userDcoument.save()
-    
-          const { password, ...rest } = userDcoument.toObject();
+        console.log(updateAuthDto.pictureProfile)
 
-         // console.log(rest)
+        userDcoument.set(updateAuthDto.pictureProfile)
 
-    
-          return rest
+        await userDcoument.save()
+
+        const { password, ...rest } = userDcoument.toObject();
+
+        // console.log(rest)
+
+
+        return rest
 
       }
 
-       throw new NotFoundException('User not found')
-      
+      throw new NotFoundException('User not found')
+
 
       // const token = this.getJwtToken({id: user._id.toJSON()})
 
@@ -191,6 +195,64 @@ export class AuthService {
   }
 
 
+  async createComment(comment: CommentDTO) {
+
+    try {
+
+      const newComment = new this.commentModel(comment);
+      return await newComment.save()
+
+    } catch (error) {
+
+      throw new UnauthorizedException(error.message)
+    }
+
+
+  }
+
+  async getAllComments(): Promise<Comment[]> {
+    const comments = await this.commentModel.find().exec()
+    return comments
+  }
+
+
+  async editComment(comment: CommentDTO) {
+
+    try {
+      let olderComment: CommentDTO = await this.commentModel.findById(comment._id)
+      olderComment.text = comment.text
+
+      const newComment = new this.commentModel(olderComment);
+      return await newComment.save()
+
+
+    } catch (error) {
+
+      throw new UnauthorizedException(error.message)
+    }
+
+
+  }
+
+  async deleteComment(comment: CommentDTO) {
+
+    try {
+      let olderComment: CommentDTO = await this.commentModel.findById(comment._id)
+      olderComment.isActive = false;
+
+      const newComment = new this.commentModel(olderComment);
+      return await newComment.save()
+
+
+    } catch (error) {
+
+      throw new UnauthorizedException(error.message)
+    }
+
+
+  }
+
+
   findOne(id: number) {
     return `This action returns a #${id} auth`;
   }
@@ -204,7 +266,6 @@ export class AuthService {
   }
 
 
-  
 
 
 }
