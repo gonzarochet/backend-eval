@@ -10,6 +10,8 @@ import { User } from './entities/user.entity';
 
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { JwtUtilities } from './utilities/jwt-utilities';
+import { CommentDTO } from './dto/comment.dto';
+import { get } from 'http';
 
 @Controller('auth')
 export class AuthController {
@@ -74,4 +76,31 @@ export class AuthController {
   // remove(@Param('id') id: string) {
   //   return this.authService.remove(+id);
   // }
+
+  @UseGuards(AuthGuard)
+  @Post('/create-comment')
+  createComment(@Body() commentDto: CommentDTO){
+      return this.authService.createComment(commentDto)
+  }
+
+
+  @UseGuards(AuthGuard)
+  @Get('/comments')
+  getAllComments(){
+    return this.authService.getAllComments()
+  }
+
+
+  @UseGuards(AuthGuard)
+  @Patch('edit-comment')
+    editComment(@Body() commentDTO: CommentDTO){
+      return this.authService.editComment(commentDTO);
+  }
+
+
+  @UseGuards(AuthGuard)
+  @Patch('delete-comment')
+  deleteComment(@Body() commentDTO: CommentDTO){
+    return this.authService.deleteComment(commentDTO);
+  }
 }
