@@ -221,6 +221,7 @@ export class AuthService {
     try {
       let olderComment: CommentDTO = await this.commentModel.findById(comment._id)
       olderComment.text = comment.text
+      olderComment.isActive = comment.isActive
 
       const newComment = new this.commentModel(olderComment);
       return await newComment.save()
